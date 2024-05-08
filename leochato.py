@@ -1,2 +1,1 @@
-if leo=='viado':
-    print('paunocu')
+leo =='legal'
