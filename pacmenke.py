@@ -1,4 +1,4 @@
-# Build Pac-Man from Scratch in Python with PyGame!!
+
 import copy
 from tabuleiro import tabuleiro
 import pygame
@@ -41,7 +41,7 @@ clyde_y = 438
 clyde_direction = 2
 counter = 0
 flicker = False
-# R, L, U, D
+
 turns_allowed = [False, False, False, False]
 direction_command = 0
 player_speed = 2
@@ -93,7 +93,7 @@ class Ghost:
         return ghost_rect
 
     def check_collisions(self):
-        # R, L, U, D
+   
         num1 = ((HEIGHT - 50) // 32)
         num2 = (WIDTH // 30)
         num3 = 15
@@ -167,8 +167,7 @@ class Ghost:
         return self.turns, self.in_box
 
     def move_clyde(self):
-        # r, l, u, d
-        # clyde is going to turn whenever advantageous for pursuit
+      
         if self.direction == 0:
             if self.target[0] > self.x_pos and self.turns[0]:
                 self.x_pos += self.speed
@@ -306,8 +305,7 @@ class Ghost:
         return self.x_pos, self.y_pos, self.direction
 
     def move_blinky(self):
-        # r, l, u, d
-        # blinky is going to turn whenever colliding with walls, otherwise continue straight
+       
         if self.direction == 0:
             if self.target[0] > self.x_pos and self.turns[0]:
                 self.x_pos += self.speed
@@ -412,8 +410,7 @@ class Ghost:
         return self.x_pos, self.y_pos, self.direction
 
     def move_inky(self):
-        # r, l, u, d
-        # inky turns up or down at any point to pursue, but left and right only on collision
+        
         if self.direction == 0:
             if self.target[0] > self.x_pos and self.turns[0]:
                 self.x_pos += self.speed
@@ -534,8 +531,7 @@ class Ghost:
         return self.x_pos, self.y_pos, self.direction
 
     def move_pinky(self):
-        # r, l, u, d
-        # inky is going to turn left or right whenever advantageous, but only up or down on collision
+       
         if self.direction == 0:
             if self.target[0] > self.x_pos and self.turns[0]:
                 self.x_pos += self.speed
@@ -728,7 +724,6 @@ def draw_board():
 
 
 def draw_player():
-    # 0-RIGHT, 1-LEFT, 2-UP, 3-DOWN
     if direction == 0:
         screen.blit(player_images[counter // 5], (player_x, player_y))
     elif direction == 1:
@@ -744,7 +739,7 @@ def check_position(centerx, centery):
     num1 = (HEIGHT - 50) // 32
     num2 = (WIDTH // 30)
     num3 = 15
-    # check collisions based on center x and center y of player +/- fudge number
+    
     if centerx // 30 < 29:
         if direction == 0:
             if level[centery // num1][(centerx - num3) // num2] < 3:
@@ -789,7 +784,7 @@ def check_position(centerx, centery):
 
 
 def move_player(play_x, play_y):
-    # r, l, u, d
+    
     if direction == 0 and turns_allowed[0]:
         play_x += player_speed
     elif direction == 1 and turns_allowed[1]:
@@ -962,7 +957,7 @@ while run:
             inky_x, inky_y, inky_direction = inky.move_clyde()
         clyde_x, clyde_y, clyde_direction = clyde.move_clyde()
     score, powerup, power_counter, eaten_ghost = check_collisions(score, powerup, power_counter, eaten_ghost)
-    # add to if not powerup to check if eaten ghosts
+    
     if not powerup:
         if (player_circle.colliderect(blinky.rect) and not blinky.dead) or \
                 (player_circle.colliderect(inky.rect) and not inky.dead) or \
@@ -1219,5 +1214,3 @@ while run:
     pygame.display.flip()
 pygame.quit()
 
-
-# sound effects, restart and winning messages
