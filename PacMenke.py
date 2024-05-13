@@ -48,17 +48,17 @@ font = pygame.font.Font('freesansbold.ttf', 20)
 level = copy.deepcopy(tabuleiro)
 color = 'blue'
 PI = math.pi
-player_images = []
+imagens_jog = []
 for i in range(1, 5):
-    player_images.append(pygame.transform.scale(pygame.image.load(f'assets/player_images/{i}.png'), (45, 45)))
+    imagens_jog.append(pygame.transform.scale(pygame.image.load(f'assets/imagens_jog/{i}.png'), (45, 45)))
 blinky_img = pygame.transform.scale(pygame.image.load(f'assets/ghost_images/red.png'), (45, 45))
 pinky_img = pygame.transform.scale(pygame.image.load(f'assets/ghost_images/pink.png'), (45, 45))
 inky_img = pygame.transform.scale(pygame.image.load(f'assets/ghost_images/blue.png'), (45, 45))
 clyde_img = pygame.transform.scale(pygame.image.load(f'assets/ghost_images/orange.png'), (45, 45))
 spooked_img = pygame.transform.scale(pygame.image.load(f'assets/ghost_images/powerup.png'), (45, 45))
 dead_img = pygame.transform.scale(pygame.image.load(f'assets/ghost_images/dead.png'), (45, 45))
-player_x = 450
-player_y = 663
+jogador_x = 450
+jogador_y = 663
 direction = 0
 blinky_x = 56
 blinky_y = 58
@@ -82,7 +82,7 @@ score = 0
 powerup = False
 power_counter = 0
 eaten_ghost = [False, False, False, False]
-metas = [(player_x, player_y), (player_x, player_y), (player_x, player_y), (player_x, player_y)]
+metas = [(jogador_x, jogador_y), (jogador_x, jogador_y), (jogador_x, jogador_y), (jogador_x, jogador_y)]
 blinky_dead = False
 inky_dead = False
 clyde_dead = False
@@ -694,7 +694,7 @@ def draw_misc():
     if powerup:
         pygame.draw.circle(screen, 'blue', (140, 930), 15)
     for i in range(lives):
-        screen.blit(pygame.transform.scale(player_images[0], (30, 30)), (650 + i * 40, 915))
+        screen.blit(pygame.transform.scale(imagens_jog[0], (30, 30)), (650 + i * 40, 915))
     if game_over:
         pygame.draw.rect(screen, 'white', [50, 200, 800, 300],0, 10)
         pygame.draw.rect(screen, 'dark gray', [70, 220, 760, 260], 0, 10)
@@ -710,7 +710,7 @@ def draw_misc():
 def colisoes(scor, power, power_count, eaten_ghosts):
     num1 = (HEIGHT - 50) // 32
     num2 = WIDTH // 30
-    if 0 < player_x < 870:
+    if 0 < jogador_x < 870:
         if level[center_y // num1][center_x // num2] == 1:
             level[center_y // num1][center_x // num2] = 0
             scor += 10
@@ -758,13 +758,13 @@ def tabuleirodes():
 
 def jogador():
     if direction == 0:
-        screen.blit(player_images[counter // 5], (player_x, player_y))
+        screen.blit(imagens_jog[counter // 5], (jogador_x, jogador_y))
     elif direction == 1:
-        screen.blit(pygame.transform.flip(player_images[counter // 5], True, False), (player_x, player_y))
+        screen.blit(pygame.transform.flip(imagens_jog[counter // 5], True, False), (jogador_x, jogador_y))
     elif direction == 2:
-        screen.blit(pygame.transform.rotate(player_images[counter // 5], 90), (player_x, player_y))
+        screen.blit(pygame.transform.rotate(imagens_jog[counter // 5], 90), (jogador_x, jogador_y))
     elif direction == 3:
-        screen.blit(pygame.transform.rotate(player_images[counter // 5], 270), (player_x, player_y))
+        screen.blit(pygame.transform.rotate(imagens_jog[counter // 5], 270), (jogador_x, jogador_y))
 
 
 def posicao(centerx, centery):
@@ -830,41 +830,41 @@ def movimentacao(play_x, play_y):
 
 
 def Mmetas(blink_x, blink_y, ink_x, ink_y, pink_x, pink_y, clyd_x, clyd_y):
-    if player_x < 450:
-        runaway_x = 900
+    if jogador_x < 450:
+        corre_x = 900
     else:
-        runaway_x = 0
-    if player_y < 450:
-        runaway_y = 900
+        corre_x = 0
+    if jogador_y < 450:
+        corre_y = 900
     else:
-        runaway_y = 0
+        corre_y = 0
     return_target = (380, 400)
     if powerup:
         if not blinky.dead and not eaten_ghost[0]:
-            blink_target = (runaway_x, runaway_y)
+            blink_target = (corre_x, corre_y)
         elif not blinky.dead and eaten_ghost[0]:
             if 340 < blink_x < 560 and 340 < blink_y < 500:
                 blink_target = (400, 100)
             else:
-                blink_target = (player_x, player_y)
+                blink_target = (jogador_x, jogador_y)
         else:
             blink_target = return_target
         if not inky.dead and not eaten_ghost[1]:
-            ink_target = (runaway_x, player_y)
+            ink_target = (corre_x, jogador_x)
         elif not inky.dead and eaten_ghost[1]:
             if 340 < ink_x < 560 and 340 < ink_y < 500:
                 ink_target = (400, 100)
             else:
-                ink_target = (player_x, player_y)
+                ink_target = (jogador_x, jogador_x)
         else:
             ink_target = return_target
         if not pinky.dead:
-            pink_target = (player_x, runaway_y)
+            pink_target = (jogador_x, corre_y)
         elif not pinky.dead and eaten_ghost[2]:
             if 340 < pink_x < 560 and 340 < pink_y < 500:
                 pink_target = (400, 100)
             else:
-                pink_target = (player_x, player_y)
+                pink_target = (jogador_x, jogador_y)
         else:
             pink_target = return_target
         if not clyde.dead and not eaten_ghost[3]:
@@ -873,7 +873,7 @@ def Mmetas(blink_x, blink_y, ink_x, ink_y, pink_x, pink_y, clyd_x, clyd_y):
             if 340 < clyd_x < 560 and 340 < clyd_y < 500:
                 clyd_target = (400, 100)
             else:
-                clyd_target = (player_x, player_y)
+                clyd_target = (jogador_x, jogador_y)
         else:
             clyd_target = return_target
     else:
@@ -881,28 +881,28 @@ def Mmetas(blink_x, blink_y, ink_x, ink_y, pink_x, pink_y, clyd_x, clyd_y):
             if 340 < blink_x < 560 and 340 < blink_y < 500:
                 blink_target = (400, 100)
             else:
-                blink_target = (player_x, player_y)
+                blink_target = (jogador_x, jogador_y)
         else:
             blink_target = return_target
         if not inky.dead:
             if 340 < ink_x < 560 and 340 < ink_y < 500:
                 ink_target = (400, 100)
             else:
-                ink_target = (player_x, player_y)
+                ink_target = (jogador_x, jogador_y)
         else:
             ink_target = return_target
         if not pinky.dead:
             if 340 < pink_x < 560 and 340 < pink_y < 500:
                 pink_target = (400, 100)
             else:
-                pink_target = (player_x, player_y)
+                pink_target = (jogador_x, jogador_y)
         else:
             pink_target = return_target
         if not clyde.dead:
             if 340 < clyd_x < 560 and 340 < clyd_y < 500:
                 clyd_target = (400, 100)
             else:
-                clyd_target = (player_x, player_y)
+                clyd_target = (jogador_x, jogador_y)
         else:
             clyd_target = return_target
     return [blink_target, ink_target, pink_target, clyd_target]
@@ -932,8 +932,8 @@ while run:
 
     screen.fill('black')
     tabuleirodes()
-    center_x = player_x + 23
-    center_y = player_y + 24
+    center_x = jogador_x + 23
+    center_y = jogador_y + 24
     if powerup:
         ghost_speeds = [1, 1, 1, 1]
     else:
@@ -975,7 +975,7 @@ while run:
 
     turns_allowed = posicao(center_x, center_y)
     if moving:
-        player_x, player_y = movimentacao(player_x, player_y)
+        jogador_x, jogador_y = movimentacao(jogador_x, jogador_y)
         if not blinky_dead and not blinky.in_box:
             blinky_x, blinky_y, blinky_direction = blinky.move_blinky()
         else:
@@ -1001,8 +1001,8 @@ while run:
                 startup_counter = 0
                 powerup = False
                 power_counter = 0
-                player_x = 450
-                player_y = 663
+                jogador_x = 450
+                jogador_y = 663
                 direction = 0
                 direction_command = 0
                 blinky_x = 56
@@ -1032,8 +1032,8 @@ while run:
             power_counter = 0
             lives -= 1
             startup_counter = 0
-            player_x = 450
-            player_y = 663
+            jogador_x = 450
+            jogador_y = 663
             direction = 0
             direction_command = 0
             blinky_x = 56
@@ -1063,8 +1063,8 @@ while run:
             power_counter = 0
             lives -= 1
             startup_counter = 0
-            player_x = 450
-            player_y = 663
+            jogador_x = 450
+            jogador_y = 663
             direction = 0
             direction_command = 0
             blinky_x = 56
@@ -1094,8 +1094,8 @@ while run:
             power_counter = 0
             lives -= 1
             startup_counter = 0
-            player_x = 450
-            player_y = 663
+            jogador_x = 450
+            jogador_y = 663
             direction = 0
             direction_command = 0
             blinky_x = 56
@@ -1125,8 +1125,8 @@ while run:
             power_counter = 0
             lives -= 1
             startup_counter = 0
-            player_x = 450
-            player_y = 663
+            jogador_x = 450
+            jogador_y = 663
             direction = 0
             direction_command = 0
             blinky_x = 56
@@ -1184,8 +1184,8 @@ while run:
                 power_counter = 0
                 lives -= 1
                 startup_counter = 0
-                player_x = 450
-                player_y = 663
+                jogador_x = 450
+                jogador_y = 663
                 direction = 0
                 direction_command = 0
                 blinky_x = 56
@@ -1230,10 +1230,10 @@ while run:
     if direction_command == 3 and turns_allowed[3]:
         direction = 3
 
-    if player_x > 900:
-        player_x = -47
-    elif player_x < -50:
-        player_x = 897
+    if jogador_x > 900:
+        jogador_x = -47
+    elif jogador_x < -50:
+        jogador_x = 897
 
     if blinky.in_box and blinky_dead:
         blinky_dead = False
