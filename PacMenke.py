@@ -1,15 +1,19 @@
-
+#INICIALIZAÇÃO DO PYGAME
 import copy
 import pygame
 import math
 from tabuleiro import tabuleiro
 
 pygame.init()
+
+SCREEN = pygame.display.set_mode((1280, 720))
 LARGURA = 800
 ALTURA = 600
 tela = pygame.display.set_mode((LARGURA, ALTURA))
 pygame.display.set_caption("PacMenke")
 relogio = pygame.time.Clock()
+
+#Cria o tabuleiro
 tabuleiro = [
 [6, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5],
 [3, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 3],
@@ -55,8 +59,10 @@ level = copy.deepcopy(tabuleiro)
 color = 'blue'
 PI = math.pi
 imagens_jog = []
+#Imagens do pacMenke
 for i in range(1, 5):
     imagens_jog.append(pygame.transform.scale(pygame.image.load(f'assets/{i}.png'), (45, 45)))
+#Imagens dos humbertasmas
 blinky_img = pygame.transform.scale(pygame.image.load(f'assets/blue.png'), (45, 45))
 pinky_img = pygame.transform.scale(pygame.image.load(f'assets/blue.png'), (45, 45))
 inky_img = pygame.transform.scale(pygame.image.load(f'assets/blue.png'), (45, 45))
@@ -67,17 +73,17 @@ jogador_x = 450
 jogador_y = 663
 direction = 0
 blinky_x = 56
-blinky_y = 58
-blinky_direction = 0
+blinky_y = 58 
+direcao_blinky = 0
 inky_x = 440
 inky_y = 388
 inky_direction = 2
 pinky_x = 440
 pinky_y = 438
-pinky_direction = 2
+direcao_pinky = 2
 clyde_x = 440
 clyde_y = 438
-clyde_direction = 2
+direcao_clyde = 2
 counter = 0
 flicker = False
 
@@ -104,7 +110,7 @@ lives = 3
 game_over = False
 game_won = False
 
-
+#classe para os Humbertasmas
 class Ghost:
     def __init__(self, x_coord, y_coord, target, speed, img, direct, dead, box, id):
         self.x_pos = x_coord
@@ -120,7 +126,7 @@ class Ghost:
         self.id = id
         self.turns, self.in_box = self.colisoes()
         self.rect = self.draw()
-
+#
     def draw(self):
         if (not powerup and not self.dead) or (eaten_ghost[self.id] and powerup and not self.dead):
             screen.blit(self.img, (self.x_pos, self.y_pos))
@@ -968,13 +974,13 @@ while run:
 
     player_circle = pygame.draw.circle(screen, 'black', (center_x, center_y), 20, 2)
     jogador()
-    blinky = Ghost(blinky_x, blinky_y, metas[0], ghost_speeds[0], blinky_img, blinky_direction, blinky_dead,
+    blinky = Ghost(blinky_x, blinky_y, metas[0], ghost_speeds[0], blinky_img, direcao_blinky, blinky_dead,
                    blinky_box, 0)
     inky = Ghost(inky_x, inky_y, metas[1], ghost_speeds[1], inky_img, inky_direction, inky_dead,
                  inky_box, 1)
-    pinky = Ghost(pinky_x, pinky_y, metas[2], ghost_speeds[2], pinky_img, pinky_direction, pinky_dead,
+    pinky = Ghost(pinky_x, pinky_y, metas[2], ghost_speeds[2], pinky_img, direcao_pinky, pinky_dead,
                   pinky_box, 2)
-    clyde = Ghost(clyde_x, clyde_y, metas[3], ghost_speeds[3], clyde_img, clyde_direction, clyde_dead,
+    clyde = Ghost(clyde_x, clyde_y, metas[3], ghost_speeds[3], clyde_img, direcao_clyde, clyde_dead,
                   clyde_box, 3)
     draw_misc()
     metas = Mmetas(blinky_x, blinky_y, inky_x, inky_y, pinky_x, pinky_y, clyde_x, clyde_y)
@@ -983,18 +989,18 @@ while run:
     if moving:
         jogador_x, jogador_y = movimentacao(jogador_x, jogador_y)
         if not blinky_dead and not blinky.in_box:
-            blinky_x, blinky_y, blinky_direction = blinky.move_blinky()
+            blinky_x, blinky_y, direcao_blinky = blinky.move_blinky()
         else:
-            blinky_x, blinky_y, blinky_direction = blinky.move_clyde()
+            blinky_x, blinky_y, direcao_blinky = blinky.move_clyde()
         if not pinky_dead and not pinky.in_box:
-            pinky_x, pinky_y, pinky_direction = pinky.move_pinky()
+            pinky_x, pinky_y, direcao_pinky = pinky.move_pinky()
         else:
-            pinky_x, pinky_y, pinky_direction = pinky.move_clyde()
+            pinky_x, pinky_y, direcao_pinky = pinky.move_clyde()
         if not inky_dead and not inky.in_box:
             inky_x, inky_y, inky_direction = inky.move_inky()
         else:
             inky_x, inky_y, inky_direction = inky.move_clyde()
-        clyde_x, clyde_y, clyde_direction = clyde.move_clyde()
+        clyde_x, clyde_y, direcao_clydeion = clyde.move_clyde()
     score, powerup, power_counter, eaten_ghost = colisoes(score, powerup, power_counter, eaten_ghost)
     
     if not powerup:
@@ -1013,16 +1019,16 @@ while run:
                 direction_command = 0
                 blinky_x = 56
                 blinky_y = 58
-                blinky_direction = 0
+                direcao_blinky = 0
                 inky_x = 440
                 inky_y = 388
                 inky_direction = 2
                 pinky_x = 440
                 pinky_y = 438
-                pinky_direction = 2
+                direcao_pinky = 2
                 clyde_x = 440
                 clyde_y = 438
-                clyde_direction = 2
+                direcao_clydeion = 2
                 eaten_ghost = [False, False, False, False]
                 blinky_dead = False
                 inky_dead = False
@@ -1044,16 +1050,16 @@ while run:
             direction_command = 0
             blinky_x = 56
             blinky_y = 58
-            blinky_direction = 0
+            direcao_blinky = 0
             inky_x = 440
             inky_y = 388
             inky_direction = 2
             pinky_x = 440
             pinky_y = 438
-            pinky_direction = 2
+            direcao_pinky = 2
             clyde_x = 440
             clyde_y = 438
-            clyde_direction = 2
+            direcao_clyde = 2
             eaten_ghost = [False, False, False, False]
             blinky_dead = False
             inky_dead = False
@@ -1075,16 +1081,16 @@ while run:
             direction_command = 0
             blinky_x = 56
             blinky_y = 58
-            blinky_direction = 0
+            direcao_blinky = 0
             inky_x = 440
             inky_y = 388
             inky_direction = 2
             pinky_x = 440
             pinky_y = 438
-            pinky_direction = 2
+            direcao_pinky = 2
             clyde_x = 440
             clyde_y = 438
-            clyde_direction = 2
+            direcao_clyde = 2
             eaten_ghost = [False, False, False, False]
             blinky_dead = False
             inky_dead = False
@@ -1106,16 +1112,16 @@ while run:
             direction_command = 0
             blinky_x = 56
             blinky_y = 58
-            blinky_direction = 0
+            direcao_blinky = 0
             inky_x = 440
             inky_y = 388
             inky_direction = 2
             pinky_x = 440
             pinky_y = 438
-            pinky_direction = 2
+            direcao_pinky = 2
             clyde_x = 440
             clyde_y = 438
-            clyde_direction = 2
+            direcao_clyde = 2
             eaten_ghost = [False, False, False, False]
             blinky_dead = False
             inky_dead = False
@@ -1137,16 +1143,16 @@ while run:
             direction_command = 0
             blinky_x = 56
             blinky_y = 58
-            blinky_direction = 0
+            direcao_blinky = 0
             inky_x = 440
             inky_y = 388
             inky_direction = 2
             pinky_x = 440
             pinky_y = 438
-            pinky_direction = 2
+            direcao_pinky = 2
             clyde_x = 440
             clyde_y = 438
-            clyde_direction = 2
+            direcao_clyde = 2
             eaten_ghost = [False, False, False, False]
             blinky_dead = False
             inky_dead = False
@@ -1196,16 +1202,16 @@ while run:
                 direction_command = 0
                 blinky_x = 56
                 blinky_y = 58
-                blinky_direction = 0
+                direcao_blinky = 0
                 inky_x = 440
                 inky_y = 388
                 inky_direction = 2
                 pinky_x = 440
                 pinky_y = 438
-                pinky_direction = 2
+                direcao_pinky = 2
                 clyde_x = 440
                 clyde_y = 438
-                clyde_direction = 2
+                direcao_clyde = 2
                 eaten_ghost = [False, False, False, False]
                 blinky_dead = False
                 inky_dead = False
