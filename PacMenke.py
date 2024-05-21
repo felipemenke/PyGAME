@@ -2,8 +2,14 @@
 import copy
 import pygame
 import math
+from tabuleiro import tabuleiro
 
 pygame.init()
+LARGURA = 800
+ALTURA = 600
+tela = pygame.display.set_mode((LARGURA, ALTURA))
+pygame.display.set_caption("PacMenke")
+relogio = pygame.time.Clock()
 tabuleiro = [
 [6, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5],
 [3, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 6, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 3],
@@ -50,13 +56,13 @@ color = 'blue'
 PI = math.pi
 imagens_jog = []
 for i in range(1, 5):
-    imagens_jog.append(pygame.transform.scale(pygame.image.load(f'assets/imagens_jog/{i}.png'), (45, 45)))
-blinky_img = pygame.transform.scale(pygame.image.load(f'assets/ghost_images/red.png'), (45, 45))
-pinky_img = pygame.transform.scale(pygame.image.load(f'assets/ghost_images/pink.png'), (45, 45))
-inky_img = pygame.transform.scale(pygame.image.load(f'assets/ghost_images/blue.png'), (45, 45))
-clyde_img = pygame.transform.scale(pygame.image.load(f'assets/ghost_images/orange.png'), (45, 45))
-spooked_img = pygame.transform.scale(pygame.image.load(f'assets/ghost_images/powerup.png'), (45, 45))
-dead_img = pygame.transform.scale(pygame.image.load(f'assets/ghost_images/dead.png'), (45, 45))
+    imagens_jog.append(pygame.transform.scale(pygame.image.load(f'assets/{i}.png'), (45, 45)))
+blinky_img = pygame.transform.scale(pygame.image.load(f'assets/blue.png'), (45, 45))
+pinky_img = pygame.transform.scale(pygame.image.load(f'assets/blue.png'), (45, 45))
+inky_img = pygame.transform.scale(pygame.image.load(f'assets/blue.png'), (45, 45))
+clyde_img = pygame.transform.scale(pygame.image.load(f'assets/blue.png'), (45, 45))
+spooked_img = pygame.transform.scale(pygame.image.load(f'assets/powerup.png'), (45, 45))
+dead_img = pygame.transform.scale(pygame.image.load(f'assets/dead.png'), (45, 45))
 jogador_x = 450
 jogador_y = 663
 direction = 0
