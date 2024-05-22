@@ -6,6 +6,7 @@ from MAIN import tabuleiro
 from sprite import *
 from movimentos import *
 from eventos import *
+import sys
 pygame.init()
 
 SCREEN = pygame.display.set_mode((1280, 720))
@@ -25,6 +26,8 @@ level = copy.deepcopy(tabuleiro)
 color = 'blue'
 PI = math.pi
 
+sdt_sfx = pygame.mixer.Sound("assets/kahoot.mp3")
+sdt_sfx.play()
 #Imagens do pacMenke
 imagens_jog = []
 for i in range(1, 5):
@@ -1224,4 +1227,5 @@ while run:
         clyde_dead = False
 
     pygame.display.flip()
+
 pygame.quit()

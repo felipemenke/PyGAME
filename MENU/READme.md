@@ -15,3 +15,5 @@ eventos - Todos os eventos do jogo
 IMPORTANTE: Para iniciar o jogo, rode o arquivo "GAME SCREEN"
 
 Link com uma demonstração breve sobre o jogo: https://youtu.be/94IHfjVuxGc
+
+REFERENCIA PARA AÇÕES DOS PERSONAGENS: https://www.youtube.com/watch?v=9H27CimgPsQ&t=4237s
