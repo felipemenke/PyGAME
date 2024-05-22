@@ -680,12 +680,12 @@ def draw_misc():
     if game_over:
         pygame.draw.rect(screen, 'white', [50, 200, 800, 300],0, 10)
         pygame.draw.rect(screen, 'dark gray', [70, 220, 760, 260], 0, 10)
-        gameover_text = font.render('Derrota! Pressione a barra de espaço para restartar!', True, 'red')
+        gameover_text = font.render('Agora o Menke não sairá no Fim de Semana! Pressione a barra de espaço para restartar!', True, 'red')
         screen.blit(gameover_text, (100, 300))
     if game_won:
         pygame.draw.rect(screen, 'white', [50, 200, 800, 300],0, 10)
         pygame.draw.rect(screen, 'dark gray', [70, 220, 760, 260], 0, 10)
-        gameover_text = font.render('Vitória! Pressione a barra de espaço para restartar!', True, 'green')
+        gameover_text = font.render('Menke sairá no Fim de Semana! Pressione a barra de espaço para restartar!', True, 'green')
         screen.blit(gameover_text, (100, 300))
 
 
