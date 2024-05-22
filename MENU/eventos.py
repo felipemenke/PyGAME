@@ -7,9 +7,48 @@ from sprite import *
 from movimentos import *
 from GAMESCREEN import *
 
+jogador_x = 450
+jogador_y = 663
+direction = 0
+blinky_x = 56
+blinky_y = 58 
+direcao_blinky = 0
+inky_x = 440
+inky_y = 388
+inky_direction = 2
+pinky_x = 440
+pinky_y = 438
+direcao_pinky = 2
+clyde_x = 440
+clyde_y = 438
+direcao_clyde = 2
+counter = 0
+flicker = False
+
+turns_allowed = [False, False, False, False]
+direction_command = 0
+player_speed = 2
+score = 0
+powerup = False
+power_counter = 0
+eaten_ghost = [False, False, False, False]
+metas = [(jogador_x, jogador_y), (jogador_x, jogador_y), (jogador_x, jogador_y), (jogador_x, jogador_y)]
+blinky_dead = False
+inky_dead = False
+clyde_dead = False
+pinky_dead = False
+blinky_box = False
+inky_box = False
+clyde_box = False
+pinky_box = False
+moving = False
+ghost_speeds = [2, 2, 2, 2]
+startup_counter = 0
+lives = 3
+game_over = False
+game_won = False
 
 
-from GAMESCREEN import *
 def Mmetas(blink_x, blink_y, ink_x, ink_y, pink_x, pink_y, clyd_x, clyd_y):
     if jogador_x < 450:
         corre_x = 900
@@ -110,7 +149,7 @@ while run:
         startup_counter += 1
     else:
         moving = True
-
+        
     screen.fill('black')
 
 

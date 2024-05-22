@@ -1,4 +1,11 @@
+import copy
+import pygame
+import math
+from MAIN import *
+from eventos import *
 from sprite import *
+from GAMESCREEN import *
+
 def nada(nda):
 #MOVIMENTOS DO CLYDE    
     def move_clyde(self):
