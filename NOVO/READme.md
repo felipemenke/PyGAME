@@ -1,19 +1,21 @@
 Jogo feito por Leonardo Leal, João Antonio Oliveira e Felipe Menke
 
-Jogo dividido em 5 Docs  - Guarda alguns parâmetros importantes e importações de imagem 
+Jogo dividido em 8 Docs  - Guarda alguns parâmetros importantes e importações de imagem 
 
-game_screen - Loop principal do jogo (Roda o jogo em si)
+GAMESCREEN2 - JOGO BRUTO (JUNTA TUDO)
 
-main - Tabuleiro
+main - PARAMETROS
 
 sprites - Guarda as classes do jogo --> Fantasmas, jogador.
 
-Movimentos - Guarda os movimentos do jogo
+Move - Guarda os movimentos do jogo
 
-eventos - Todos os eventos do jogo
+Colisões - Ações e eventos do jogo
+
+tabuleiro - tabuleiro o qual o pacMenke é jogado
 
 IMPORTANTE: Para iniciar o jogo, rode o arquivo "GAME SCREEN"
 
 Link com uma demonstração breve sobre o jogo: https://youtu.be/94IHfjVuxGc
 
-REFERENCIA PARA AÇÕES DOS PERSONAGENS: https://www.youtube.com/watch?v=9H27CimgPsQ&t=4237s
+REFERENCIA PARA AÇÕES DOS PERSONAGENS E POSIÇÕES DOS PERSONAGENS: https://www.youtube.com/watch?v=9H27CimgPsQ&t=4237s
