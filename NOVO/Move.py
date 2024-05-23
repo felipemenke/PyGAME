@@ -1,53 +1,68 @@
-#Eventos para que acarretem, ou na morte, vitória, derrota dos personagens
-import copy
 import pygame
-import math
 from MAIN import *
+import math
 from sprite import *
-from movimentos import *
-from GAMESCREEN import *
+from colisões import *
+from GAMESCREEN2 import *
 
-jogador_x = 450
-jogador_y = 663
-direction = 0
-blinky_x = 56
-blinky_y = 58 
-direcao_blinky = 0
-inky_x = 440
-inky_y = 388
-inky_direction = 2
-pinky_x = 440
-pinky_y = 438
-direcao_pinky = 2
-clyde_x = 440
-clyde_y = 438
-direcao_clyde = 2
-counter = 0
-flicker = False
+def posicao(centerx, centery):
+    turns = [False, False, False, False]
+    num1 = (HEIGHT - 50) // 32
+    num2 = (WIDTH // 30)
+    num3 = 15
+    
+    if centerx // 30 < 29:
+        if direction == 0:
+            if level[centery // num1][(centerx - num3) // num2] < 3:
+                turns[1] = True
+        if direction == 1:
+            if level[centery // num1][(centerx + num3) // num2] < 3:
+                turns[0] = True
+        if direction == 2:
+            if level[(centery + num3) // num1][centerx // num2] < 3:
+                turns[3] = True
+        if direction == 3:
+            if level[(centery - num3) // num1][centerx // num2] < 3:
+                turns[2] = True
 
-turns_allowed = [False, False, False, False]
-direction_command = 0
-player_speed = 2
-score = 0
-powerup = False
-power_counter = 0
-eaten_ghost = [False, False, False, False]
-metas = [(jogador_x, jogador_y), (jogador_x, jogador_y), (jogador_x, jogador_y), (jogador_x, jogador_y)]
-blinky_dead = False
-inky_dead = False
-clyde_dead = False
-pinky_dead = False
-blinky_box = False
-inky_box = False
-clyde_box = False
-pinky_box = False
-moving = False
-ghost_speeds = [2, 2, 2, 2]
-startup_counter = 0
-lives = 3
-game_over = False
-game_won = False
+        if direction == 2 or direction == 3:
+            if 12 <= centerx % num2 <= 18:
+                if level[(centery + num3) // num1][centerx // num2] < 3:
+                    turns[3] = True
+                if level[(centery - num3) // num1][centerx // num2] < 3:
+                    turns[2] = True
+            if 12 <= centery % num1 <= 18:
+                if level[centery // num1][(centerx - num2) // num2] < 3:
+                    turns[1] = True
+                if level[centery // num1][(centerx + num2) // num2] < 3:
+                    turns[0] = True
+        if direction == 0 or direction == 1:
+            if 12 <= centerx % num2 <= 18:
+                if level[(centery + num1) // num1][centerx // num2] < 3:
+                    turns[3] = True
+                if level[(centery - num1) // num1][centerx // num2] < 3:
+                    turns[2] = True
+            if 12 <= centery % num1 <= 18:
+                if level[centery // num1][(centerx - num3) // num2] < 3:
+                    turns[1] = True
+                if level[centery // num1][(centerx + num3) // num2] < 3:
+                    turns[0] = True
+    else:
+        turns[0] = True
+        turns[1] = True
 
+    return turns
+def movimentacao(play_x, play_y):
+    if direction == 0 and turns_allowed[0]:
+        play_x += player_speed
+    elif direction == 1 and turns_allowed[1]:
+        play_x -= player_speed
+    if direction == 2 and turns_allowed[2]:
+        play_y -= player_speed
+    elif direction == 3 and turns_allowed[3]:
+        play_y += player_speed
+    return play_x, play_y
+#Lógica dos targets, como os personagens movem
 
 def Mmetas(blink_x, blink_y, ink_x, ink_y, pink_x, pink_y, clyd_x, clyd_y):
     if jogador_x < 450:
@@ -126,67 +141,8 @@ def Mmetas(blink_x, blink_y, ink_x, ink_y, pink_x, pink_y, clyd_x, clyd_y):
         else:
             clyd_target = return_target
     return [blink_target, ink_target, pink_target, clyd_target]
-
-
 run = True
 while run:
-    timer.tick(fps)
-    if counter < 19:
-        counter += 1
-        if counter > 3:
-            flicker = False
-    else:
-        counter = 0
-        flicker = True
-    if powerup and power_counter < 600:
-        power_counter += 1
-    elif powerup and power_counter >= 600:
-        power_counter = 0
-        powerup = False
-        eaten_ghost = [False, False, False, False]
-    if startup_counter < 180 and not game_over and not game_won:
-        moving = False
-        startup_counter += 1
-    else:
-        moving = True
-        
-    screen.fill('black')
-
-
-def tabuleirodes():
-    num1 = ((HEIGHT - 50) // 32)
-    num2 = (WIDTH // 30)
-    for i in range(len(level)):
-        for j in range(len(level[i])):
-            if level[i][j] == 1:
-                pygame.draw.circle(screen, 'white', (j * num2 + (0.5 * num2), i * num1 + (0.5 * num1)), 4)
-            if level[i][j] == 2 and not flicker:
-                pygame.draw.circle(screen, 'white', (j * num2 + (0.5 * num2), i * num1 + (0.5 * num1)), 10)
-            if level[i][j] == 3:
-                pygame.draw.line(screen, color, (j * num2 + (0.5 * num2), i * num1),
-                                 (j * num2 + (0.5 * num2), i * num1 + num1), 3)
-            if level[i][j] == 4:
-                pygame.draw.line(screen, color, (j * num2, i * num1 + (0.5 * num1)),
-                                 (j * num2 + num2, i * num1 + (0.5 * num1)), 3)
-            if level[i][j] == 5:
-                pygame.draw.arc(screen, color, [(j * num2 - (num2 * 0.4)) - 2, (i * num1 + (0.5 * num1)), num2, num1],
-                                0, PI / 2, 3)
-            if level[i][j] == 6:
-                pygame.draw.arc(screen, color,
-                                [(j * num2 + (num2 * 0.5)), (i * num1 + (0.5 * num1)), num2, num1], PI / 2, PI, 3)
-            if level[i][j] == 7:
-                pygame.draw.arc(screen, color, [(j * num2 + (num2 * 0.5)), (i * num1 - (0.4 * num1)), num2, num1], PI,
-                                3 * PI / 2, 3)
-            if level[i][j] == 8:
-                pygame.draw.arc(screen, color,
-                                [(j * num2 - (num2 * 0.4)) - 2, (i * num1 - (0.4 * num1)), num2, num1], 3 * PI / 2,
-                                2 * PI, 3)
-            if level[i][j] == 9:
-                pygame.draw.line(screen, 'white', (j * num2, i * num1 + (0.5 * num1)),
-                                 (j * num2 + num2, i * num1 + (0.5 * num1)), 3)
-
-
-    
     tabuleirodes()
     center_x = jogador_x + 23
     center_y = jogador_y + 24
@@ -215,7 +171,6 @@ def tabuleirodes():
     for i in range(len(level)):
         if 1 in level[i] or 2 in level[i]:
             game_won = False
-
     player_circle = pygame.draw.circle(screen, 'black', (center_x, center_y), 20, 2)
     jogador()
     blinky = Ghost(blinky_x, blinky_y, metas[0], ghost_speeds[0], blinky_img, direcao_blinky, blinky_dead,
@@ -245,7 +200,6 @@ def tabuleirodes():
         else:
             inky_x, inky_y, inky_direction = inky.move_clyde()
         clyde_x, clyde_y, direcao_clydeion = clyde.move_clyde()
-    score, powerup, power_counter, eaten_ghost = colisoes(score, powerup, power_counter, eaten_ghost)
     
     if not powerup:
         if (player_circle.colliderect(blinky.rect) and not blinky.dead) or \
@@ -499,5 +453,6 @@ def tabuleirodes():
         pinky_dead = False
     if clyde.in_box and clyde_dead:
         clyde_dead = False
+  
 
-    pygame.display.flip()
+

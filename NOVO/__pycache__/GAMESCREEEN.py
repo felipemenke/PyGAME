@@ -2,10 +2,7 @@
 import copy
 import pygame
 import math
-from MAIN import tabuleiro
-from sprite import *
-from movimentos import *
-from eventos import *
+from MAIN import *
 import sys
 pygame.init()
 
